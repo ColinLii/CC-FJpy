@@ -1,5 +1,5 @@
 //
-//  CCFJ-py
+//  CC-FJpy
 //  A Python Package for seismic ambient noise cross-correlation and Frequency-Bessel Transform Method
 //
 //  GNU General Public License, Version 3, 29 June 2007

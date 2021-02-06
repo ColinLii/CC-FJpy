@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
-setup.py: compile the CCFJ-Py in GPU or CPU version 
-CCFJ-Py: A Python Package for seismic ambient noise cross-correlation and the frequency-Bessel transform method.
+setup.py: compile the CC-FJPy in GPU or CPU version 
+CC-FJPy: A Python Package for seismic ambient noise cross-correlation and the frequency-Bessel transform method.
 
 :copyright:
  Xiaofei Chen Research Group, Department of Earth and Space Sciences, SUSTech, China.

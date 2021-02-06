@@ -1,5 +1,5 @@
 """
-CCFJ-Py: A Python Package for seismic ambient noise cross-correlation and the frequency-Bessel transform method.
+CC-FJpy: A Python Package for seismic ambient noise cross-correlation and the frequency-Bessel transform method.
 
 :copyright:
  Xiaofei Chen Research Group, Department of Earth and Space Sciences, SUSTech, China.
