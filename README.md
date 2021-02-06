@@ -176,4 +176,6 @@ out = ccfj.MWFJ(u,r,c,f,Fs,nwin,winl,winr,taper=0.9,fstride=1,itype=0,func=0)
 ```
 make clean
 ```
-
+## References
+Wang, J., Wu, G., & Chen, X. (2019). Frequency‐Bessel Transform Method for Effective Imaging of Higher‐Mode Rayleigh Dispersion Curves From Ambient Seismic Noise Data. Journal of Geophysical Research: Solid Earth, 124(4), 3708-3723. doi:10.1029/2018jb016595
+Li, Z., & Chen, X., (2020). An Effective Method to Extract Overtones of Surface Wave from Array Seismic Records of Earthquake Events. Journal of Geophysical Research: Solid Earth, 125(3), e2019JB18511. doi:10.1029/2019jb018511
