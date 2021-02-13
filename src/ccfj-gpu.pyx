@@ -274,8 +274,8 @@ def fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0):
     elif func == 1:
         outr = fhr(ufr,r,c,f,fstride,itype) - fhi(ufi,r,c,f,fstride,itype)
         outi = fhr(ufi,r,c,f,fstride,itype) + fhi(ufr,r,c,f,fstride,itype)
-        #out = np.sqrt(outr**2+outi**2)
-        out = outi
+        out = np.sqrt(outr**2+outi**2)
+        #out = outi
     else:
         print('set func as 0 for Bessel function 1 for Hankel function')
         return 0
