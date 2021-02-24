@@ -11,7 +11,7 @@ def unzip(filename):
     if os.path.isdir(filename+"_files"):
         pass
     else:
-        os.mkdir(filename+"files")
+        os.mkdir(filename+"_files")
     for names in zip_file.namelist():
         zip_file.extract(names,filename+"_files/")
     zip_file.close()
