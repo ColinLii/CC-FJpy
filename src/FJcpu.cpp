@@ -14,6 +14,7 @@
 #endif
 #include <math.h>
 #define M_PI 3.14159265358
+#include<iostream>
 
 using namespace std;
 
@@ -231,13 +232,13 @@ int integral_J(float *U_f,float *r, float *f, float *out,float *c, int nc, int n
 	float kernel;
 	float k,fl,cl,r1,r2,g1,g2,a,b;
 	float dr0,B01,B02;
-	int indx_d,B0n;
+	int indx_d;
 #ifdef useOMP
     omp_set_num_threads(nthreads);
 #endif
 #ifdef useOMP
 #pragma omp parallel
-#pragma omp for private(k,kernel,fl,cl,r1,r2,g1,g2,a,b,dr0,B01,B02,indx_d,B0n)
+#pragma omp for private(indx,k,kernel,fl,cl,r1,r2,g1,g2,a,b,dr0,B01,B02,indx_d)
 #endif
 	for(int i =0;i<nf;i++)
 	{
@@ -277,13 +278,13 @@ int integral_Y(float *U_f,float *r, float *f, float *out,float *c, int nc, int n
 	float kernel;
 	float k,fl,cl,r1,r2,g1,g2,a,b;
 	float dr0,B01,B02;
-	int indx_d,B0n;
+	int indx_d;
 #ifdef useOMP
     omp_set_num_threads(nthreads);
 #endif
 #ifdef useOMP
 #pragma omp parallel
-#pragma omp for private(k,kernel,fl,cl,r1,r2,g1,g2,a,b,dr0,B01,B02,indx_d,B0n)
+#pragma omp for private(indx,k,kernel,fl,cl,r1,r2,g1,g2,a,b,dr0,B01,B02,indx_d)
 #endif
 	for(int i =0;i<nf;i++)
 	{
@@ -304,9 +305,9 @@ int integral_Y(float *U_f,float *r, float *f, float *out,float *c, int nc, int n
 				dr0 = fmaxf((r2-r1),0.1);
 				a = g1-r1*(g2-g1)/dr0;
 				b = (g2-g1)/dr0;
-				kernel += a*(r2*bessj1(k*r2)-r1*bessj1(k*r1))/k;
-				kernel += b*(r2*r2*bessj1(k*r2)-r1*r1*bessj1(k*r1))/k;
-				kernel += b*(r2*bessj0(k*r2)-r1*bessj0(k*r1))/k/k;
+				kernel += a*(r2*bessy1(k*r2)-r1*bessy1(k*r1))/k;
+				kernel += b*(r2*r2*bessy1(k*r2)-r1*r1*bessy1(k*r1))/k;
+				kernel += b*(r2*bessy0(k*r2)-r1*bessy0(k*r1))/k/k;
 				B02 = k*r2*bessy0(k*r2)+M_PI*k*r2*(bessy1(k*r2)*STVH0(k*r2)-bessy0(k*r2)*STVH1(k*r2))/2;
                 B01 = k*r1*bessy0(k*r1)+M_PI*k*r1*(bessy1(k*r1)*STVH0(k*r1)-bessy0(k*r1)*STVH1(k*r1))/2;
 				kernel += -b*(B02-B01)/k/k/k;
@@ -322,15 +323,18 @@ int integral_Y(float *U_f,float *r, float *f, float *out,float *c, int nc, int n
 int trap_J(float *U_f,float *r, float *f, float *out,float *c, int nc, int nr, int nf,int nthreads){
 	int indx;
 	float kernel;
-	float k,fl,cl,r1,r2,g1,g2,a,b;
-	float dr0,B01,B02;
-	int indx_d,B0n;
+	float k,fl,cl,r1,r2,g1,g2;
+	float dr0;
+	int indx_d;
+    for(int i=0;i<10;i++)
+        cout << f[i] << " ";
+    cout << endl;
 #ifdef useOMP
     omp_set_num_threads(nthreads);
 #endif
 #ifdef useOMP
 #pragma omp parallel
-#pragma omp for private(k,kernel,fl,cl,r1,r2,g1,g2,a,b,dr0,B01,B02,indx_d,B0n)
+#pragma omp for private(indx,k,kernel,fl,cl,r1,r2,g1,g2,dr0,indx_d)
 #endif
 	for(int i =0;i<nf;i++)
 	{
@@ -340,7 +344,6 @@ int trap_J(float *U_f,float *r, float *f, float *out,float *c, int nc, int nr, i
 			fl = f[i];
 			cl = c[j];
 			k = 2*M_PI*fl/cl;
-			B02 = 0;
 			kernel = 0;
 			for (int ir=1;ir<nr;ir++){
 				indx_d = i + ir*nf;
@@ -349,7 +352,8 @@ int trap_J(float *U_f,float *r, float *f, float *out,float *c, int nc, int nr, i
 				r1 = r[ir-1];
 				r2 = r[ir];
 				dr0 = fmaxf((r2-r1),0.1);
-			    kernel += (g1*bessj0(k*r1)*r1+g2*(bessj0(k*r2))*r2)*dr0/2;
+			    //kernel += (g1*bessj0(k*r1)*r1+g2*bessj0(k*r2)*r2)*dr0*0.5;
+			    kernel += (g1*j0(k*r1)*r1+g2*j0(k*r2)*r2)*dr0*0.5;
 			}
 			out[indx] = kernel;
 		}
@@ -360,15 +364,15 @@ int trap_J(float *U_f,float *r, float *f, float *out,float *c, int nc, int nr, i
 int trap_Y(float *U_f,float *r, float *f, float *out,float *c, int nc, int nr, int nf,int nthreads){
 	int indx;
 	float kernel;
-	float k,fl,cl,r1,r2,g1,g2,a,b;
-	float dr0,B01,B02;
-	int indx_d,B0n;
+	float k,fl,cl,r1,r2,g1,g2;
+	float dr0;
+	int indx_d;
 #ifdef useOMP
     omp_set_num_threads(nthreads);
 #endif
 #ifdef useOMP
 #pragma omp parallel
-#pragma omp for private(k,kernel,fl,cl,r1,r2,g1,g2,a,b,dr0,B01,B02,indx_d,B0n)
+#pragma omp for private(indx,k,kernel,fl,cl,r1,r2,g1,g2,dr0,indx_d)
 #endif
 	for(int i =0;i<nf;i++)
 	{
@@ -378,7 +382,6 @@ int trap_Y(float *U_f,float *r, float *f, float *out,float *c, int nc, int nr, i
 			fl = f[i];
 			cl = c[j];
 			k = 2*M_PI*fl/cl;
-			B02 = 0;
 			kernel = 0;
 			for (int ir=1;ir<nr;ir++){
 				indx_d = i + ir*nf;
@@ -398,9 +401,10 @@ int trap_Y(float *U_f,float *r, float *f, float *out,float *c, int nc, int nr, i
 int FJ(float *u_f,float *r, float *f,float *out, float *c,int nc,int nr,int nf,int type,int nThread)
 {
     if(type==1)
-		integral_J(u_f,r,out,c,f,nr,nc,nf,nThread);
-	if(type==0)
-		trap_J(u_f,r,out,c,f,nr,nc,nf,nThread);
+		integral_J(u_f,r,f,out,c,nc,nr,nf,nThread);
+	if(type==0){
+		trap_J(u_f,r,f,out,c,nc,nr,nf,nThread);
+    }
     return 0;
 }
 
@@ -408,8 +412,8 @@ int FJ(float *u_f,float *r, float *f,float *out, float *c,int nc,int nr,int nf,i
 int FH(float *u_f,float *r, float *f,float *out, float *c,int nc,int nr,int nf,int type,int nThread)
 {
     if(type==1)
-		integral_Y(u_f,r,out,c,f,nr,nc,nf,nThread);
+		integral_Y(u_f,r,f,out,c,nc,nr,nf,nThread);
 	if(type==0)
-		trap_Y(u_f,r,out,c,f,nr,nc,nf,nThread);
+		trap_Y(u_f,r,f,out,c,nc,nr,nf,nThread);
     return 0;
 }

@@ -12,8 +12,10 @@ from libc.stdio cimport printf
 from numpy cimport ndarray as array
 from scipy import fftpack
 import numpy as np
+import os
 cimport numpy as np
 cimport cython
+
 
 cdef extern from "CrossCorr.h":
     struct CC_data:    
@@ -237,8 +239,12 @@ def fhi(uf,r,c,f,fstride=1,itype=1):
 def fj_noise(uf,r,c,f,
     fstride = 1,
     itype = 1, # 0 for trapz integral, 1 for linear approximate
-    func = 0 # 'B' for Bessel funciton, 'H' for Hankel function
+    func = 0, # 'B' for Bessel funciton, 'H' for Hankel function
+    num=-1
     ):
+    if num != -1:
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(int(num))
+        
     indx = np.argsort(r)
     r = r[indx]
     uf = uf[indx]
@@ -259,7 +265,10 @@ def fj_noise(uf,r,c,f,
         out[:,i] = out[:,i]/max(np.abs(out[:,i]))
     return out
 
-def fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0):
+def fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0,num=-1):
+    if num != -1:
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(int(num))
+        
     indx = np.argsort(r)
     r = r[indx]
     u1 = u[indx]
@@ -287,7 +296,9 @@ def MWFJ(u,r,c,f,Fs,nwin,winl,winr,
     taper =0.9,
     fstride= 1,
     itype = 1,
-    func = 0):
+    func = 0,
+    num = -1):
+        
     nr = len(r)
     npts = len(u[0])
     out = np.zeros([nwin,len(c),len(f)])
@@ -296,5 +307,5 @@ def MWFJ(u,r,c,f,Fs,nwin,winl,winr,
         for j  in range(nr):
             tmp = win(npts,Fs,winl[i,j],winr[i,j],taper)
             u0[j,:] = u[j,:]*tmp
-        out[i,:,:] = fj_earthquake(u0,r,c,f,fstride=fstride,itype=itype,func = func)
+        out[i,:,:] = fj_earthquake(u0,r,c,f,fstride=fstride,itype=itype,func = func,num=num)
     return out

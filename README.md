@@ -93,7 +93,7 @@ The specific example, please read example_CC.ipynb.
 #### For ambient noise 
 
 ```
-out = ccfj.fj_noise(uf,r,c,f,fstride=1,itype=1,func=0)
+out = ccfj.fj_noise(uf,r,c,f,fstride=1,itype=1,func=0,num=20)
 ```
 
 The F-J Method for CCFs
@@ -114,11 +114,13 @@ The F-J Method for CCFs
 
 - `out`: the output dispersion spectrum
 
+- `num`: the number of threads for cpu version (defult 20) and the device number of gpu version (default 0)
+
 
 #### For earthquakes
 
 ```
-out = ccfj.fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0)
+out = ccfj.fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0,num =20)
 ```
 
 
@@ -138,12 +140,14 @@ out = ccfj.fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0)
 
 - `out`: the output dispersion spectrum
 
+- `num`: the number of threads for cpu version (defult 20) and the device number of gpu version (default 0)
+
 ### Mutli-windows F-J method (MWFJ)
 
 This is mainly for earthquake
 
 ```
-out = ccfj.MWFJ(u,r,c,f,Fs,nwin,winl,winr,taper=0.9,fstride=1,itype=0,func=0)
+out = ccfj.MWFJ(u,r,c,f,Fs,nwin,winl,winr,taper=0.9,fstride=1,itype=0,func=0, num=20)
 ```
 
 - `u`: the records in time domain
@@ -170,11 +174,14 @@ out = ccfj.MWFJ(u,r,c,f,Fs,nwin,winl,winr,taper=0.9,fstride=1,itype=0,func=0)
 
 - `out`: the output dispersion spectrum
 
+- `num`: the number of threads for cpu version (defult 20) and the device number of gpu version (default 0)
+
 
 ## Uninstall
 
 ```
 make clean
+make uninstall
 ```
 ## References
 Wang, J., Wu, G., & Chen, X. (2019). Frequency‐Bessel Transform Method for Effective Imaging of Higher‐Mode Rayleigh Dispersion Curves From Ambient Seismic Noise Data. Journal of Geophysical Research: Solid Earth, 124(4), 3708-3723. doi:10.1029/2018jb016595
