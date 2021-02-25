@@ -28,7 +28,7 @@ libs = ['m', 'fftw3f']
 args = ['-std=c99', '-O3','-DuseOMP', '-fopenmp']
 sources = ['src/ccfj.pyx', 'src/CrossCorr.cpp','src/FJcpu.cpp']
 include = ['include',numpy.get_include()]
-linkerargs = ['-Wl,-rpath,lib']
+linkerargs = ['-Wl,-rpath,lib','-fopenmp']
 libdirs = ['lib']
 
 
