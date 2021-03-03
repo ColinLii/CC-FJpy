@@ -189,3 +189,5 @@ Wang, J., Wu, G., & Chen, X. (2019). Frequency‐Bessel Transform Method for Eff
 Wu, G.-x., Pan, L., Wang, J.-n., & Chen, X. (2020). Shear Velocity Inversion Using Multimodal Dispersion Curves From Ambient Seismic Noise Data of USArray Transportable Array. Journal of Geophysical Research: Solid Earth, 125(1), e2019JB018213. doi:10.1029/2019jb018213
 
 Li, Z., & Chen, X., (2020). An Effective Method to Extract Overtones of Surface Wave from Array Seismic Records of Earthquake Events. Journal of Geophysical Research: Solid Earth, 125(3), e2019JB18511. doi:10.1029/2019jb018511
+
+Li, Z., Zhou, J., Wu, G., Wang, J., Zhang, G., Dong, S., Pan, L., Yang, Z., Gao, L., Ma, Q., Ren, H., & Chen, X. (2021). CC-FJpy: A Python Package for seismic ambient noise cross-correlation and the frequency-Bessel transform method. Earth and Space Science Open Archive. doi: 10.1002/essoar.10506115.1
