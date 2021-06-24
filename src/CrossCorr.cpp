@@ -35,14 +35,15 @@ int CrossCorrelation(CC_data d)
 #ifdef useOMP
     omp_set_num_threads(d.nThreads);
 #endif
-    int npairs = (d.nsta-1)*d.nsta/2;
-    int * CCnumbers;
-    CCnumbers = (int *)malloc(sizeof(int)*npairs);
-    for(int i=0;i<npairs;i++)
+    //long npairs = (d.nsta-1)*d.nsta/2;
+    long npairs = d.npairs;
+    long * CCnumbers;
+    CCnumbers = (long *)malloc(sizeof(long)*npairs);
+    for(long i=0;i<npairs;i++)
         CCnumbers[i] = 0;
     bool * ifCC;
     ifCC = (bool *) malloc(sizeof(bool)*d.nsta);
-    int nshifts;
+    long nshifts;
     if(d.fftlen>=d.npts){
         d.fftlen = d.npts;
         nshifts = 1;
@@ -58,12 +59,12 @@ int CrossCorrelation(CC_data d)
     in = (float **)malloc(sizeof(float *)*d.nsta);
     out = (fftwf_complex **)malloc(sizeof(fftwf_complex *)*d.nsta);
     p = (fftwf_plan *) malloc(sizeof(fftwf_plan)*d.nsta);
-    for(int i =0;i<d.nsta;i++){
+    for(long i =0;i<d.nsta;i++){
         //in[i] = (float *)malloc(sizeof(float)*fftlen);
         //out[i] = (fftwf_complex *)fftwf_malloc(sizeof(fftwf_complex)*fftlen);
         in[i] = fftwf_alloc_real(d.fftlen);
         out[i] = fftwf_alloc_complex(d.fftlen);
-        p[i] = fftwf_plan_dft_r2c_1d(d.fftlen,in[i],out[i],FFTW_FORWARD);
+        p[i] = fftwf_plan_dft_r2c_1d(d.fftlen,in[i],out[i],FFTW_MEASURE);
     }
 
     datar = (float *)malloc(d.nf*d.nsta*sizeof(float));
@@ -73,19 +74,19 @@ int CrossCorrelation(CC_data d)
 #pragma omp parallel
 #pragma omp for private(absv)
 #endif
-    for(int i=0;i<d.nsta;i++){
-        for(int j =0;j<d.npts;j++){
+    for(long i=0;i<d.nsta;i++){
+        for(long j =0;j<d.npts;j++){
             d.data[j+i*d.npts] = sign(d.data[j+i*d.npts]);
         }
     }
     }
 
-    for(int k=0;k<nshifts;k++){
+    for(long k=0;k<nshifts;k++){
 #ifdef useOMP
 #pragma omp parallel
 #pragma omp for private(absv)
 #endif
-        for(int i=0;i<d.nsta;i++){
+        for(long i=0;i<d.nsta;i++){
             if(((k*d.steplen)>d.startend[i*2])&&((k*d.steplen+d.fftlen)<d.startend[i*2+1]))
             {
                 ifCC[i] = 1;
@@ -96,12 +97,12 @@ int CrossCorrelation(CC_data d)
             }
             
             if (ifCC[i]){
-                for(int j=0;j<d.fftlen;j++){
+                for(long j=0;j<d.fftlen;j++){
                     in[i][j] = d.data[j+k*d.steplen+d.npts*i];
                 }
                 fftwf_execute(p[i]);
                 if(d.ifspecwhitenning){
-                    for (int j=0;j<d.nf;j++){
+                    for (long j=0;j<d.nf;j++){
                         absv = sqrtf(out[i][j*d.fstride][0]*out[i][j*d.fstride][0]+out[i][j*d.fstride][1]*out[i][j*d.fstride][1]);
                         absv = max(absv,1e-8f);
                         if(absv!=0){
@@ -111,7 +112,7 @@ int CrossCorrelation(CC_data d)
                     }
                 }
                 else{
-                    for(int j=0;j<d.nf;j++){
+                    for(long j=0;j<d.nf;j++){
                         datar[j+d.nf*i] = out[i][j*d.fstride][0];
                         datai[j+d.nf*i] = out[i][j*d.fstride][1];
                     }
@@ -122,9 +123,9 @@ int CrossCorrelation(CC_data d)
 #pragma omp parallel
 #pragma omp for
 #endif
-        for(int i=0;i<npairs; i++){
+        for(long i=0;i<npairs; i++){
             if(ifCC[d.Pairs[i*2]]&ifCC[d.Pairs[i*2+1]]){
-                for(int j=0;j<d.nf;j++){
+                for(long j=0;j<d.nf;j++){
                     d.ncfsr[j+i*d.nf] += datar[j+d.Pairs[i*2]*d.nf]*datar[j+d.Pairs[i*2+1]*d.nf] + datai[j+d.Pairs[i*2]*d.nf]*datai[j+d.Pairs[i*2+1]*d.nf];
                     d.ncfsi[j+i*d.nf] += datar[j+d.Pairs[i*2]*d.nf]*datai[j+d.Pairs[i*2+1]*d.nf] - datai[j+d.Pairs[i*2]*d.nf]*datar[j+d.Pairs[i*2+1]*d.nf];
                 }
@@ -136,15 +137,15 @@ int CrossCorrelation(CC_data d)
 #pragma omp parallel
 #pragma omp for
 #endif
-    for (int i=0;i<npairs;i++){
+    for (long i=0;i<npairs;i++){
         if(CCnumbers[i]>0){
-            for(int j =0;j<d.nf;j++){
+            for(long j =0;j<d.nf;j++){
                 d.ncfsr[j+i*d.nf] = d.ncfsr[j+i*d.nf]/CCnumbers[i];
                 d.ncfsi[j+i*d.nf] = d.ncfsi[j+i*d.nf]/CCnumbers[i];
             }
         }
     }
-    for (int i=0;i<d.nsta;i++){
+    for (long i=0;i<d.nsta;i++){
         fftwf_destroy_plan(p[i]);
         fftwf_free(out[i]);
         fftwf_free(in[i]);

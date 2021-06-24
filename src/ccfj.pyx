@@ -20,6 +20,7 @@ cdef extern from "CrossCorr.h":
         int nsta;
         int npts;
         int nf;
+        int npairs;
         int fstride;
         int fftlen;
         int steplen;
@@ -43,7 +44,7 @@ cdef extern from "FJcpu.h":
 cpdef CC_full(
     int npts, int nsta, int nf, int fstride,
     int fftlen,int steplen,int ifonebit,int ifspecwhitenning,
-    int nThreads,
+    int nThreads, int npairs,
     int[:] Pairs, int[:] startend,
     float[:] data,
     float[:] ncfsr, float[:] ncfsi):
@@ -63,6 +64,7 @@ cpdef CC_full(
     d.data = <float *> & data[0]
     d.ncfsr = <float *> &ncfsr[0]
     d.ncfsi = <float *> &ncfsi[0]
+    d.npairs = npairs
     CrossCorrelation(d)
     
 @cython.boundscheck(False)

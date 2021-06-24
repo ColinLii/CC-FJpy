@@ -22,6 +22,7 @@ cdef extern from "CrossCorr.h":
         int nsta;
         int npts;
         int nf;
+        int npairs;
         int fstride;
         int fftlen;
         int steplen;
@@ -46,7 +47,7 @@ cdef extern from "FJgpu.hh":
 cpdef CC_full(
     int npts, int nsta, int nf, int fstride,
     int fftlen,int steplen,int ifonebit,int ifspecwhitenning,
-    int nThreads,
+    int nThreads, int npairs,
     int[:] Pairs, int[:] startend,
     float[:] data,
     float[:] ncfsr, float[:] ncfsi):
@@ -66,6 +67,7 @@ cpdef CC_full(
     d.data = <float *> & data[0]
     d.ncfsr = <float *> &ncfsr[0]
     d.ncfsi = <float *> &ncfsi[0]
+    d.npairs = npairs
     CrossCorrelation(d)
     
 @cython.boundscheck(False)
@@ -157,7 +159,7 @@ def CC(
     
     ncfsr = np.zeros(nf*nPairs,dtype=np.float32)
     ncfsi = np.zeros(nf*nPairs,dtype=np.float32)
-    CC_full(npts,nsta,nf,fstride,fftlen,steplen,ifonebit,ifspecwhittenning,nThreads,Pairs,startend,data,ncfsr,ncfsi)
+    CC_full(npts,nsta,nf,fstride,fftlen,steplen,ifonebit,ifspecwhittenning,nThreads,nPairs,Pairs,startend,data,ncfsr,ncfsi)
     ncfsr = ncfsr.reshape([nPairs,nf])
     ncfsi = ncfsi.reshape([nPairs,nf])
     ncfs = ncfsr + ncfsi*1j

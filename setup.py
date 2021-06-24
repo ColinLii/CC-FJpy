@@ -171,7 +171,7 @@ else:
         libraries = ['cudart','fftw3f'],
         language = 'c++',
         runtime_library_dirs = [CUDA['lib64']],
-        extra_link_args=['-Wl,-rpath,lib'],
+        extra_link_args=['-Wl,-rpath,lib','-fopenmp'],
         # This syntax is specific to this build system
         # we're only going to use certain compiler args with nvcc
         # and not with gcc the implementation of this trick is in
@@ -179,8 +179,8 @@ else:
         extra_compile_args= {
           'gcc': ['-std=c99', '-O3','-DuseOMP','-fopenmp'],
           'nvcc': [
-            '--ptxas-options=-v', '-c',
-            '--compiler-options', "'-fPIC'"
+            '--ptxas-options=-v', '-c','-DuseOMP',
+            '--compiler-options', "'-fPIC'",'--compiler-options',"'-fopenmp'"
             ]
           },
           include_dirs = [numpy_include, CUDA['include'], 'src','include']
