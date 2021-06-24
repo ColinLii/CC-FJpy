@@ -179,8 +179,14 @@ else:
         extra_compile_args= {
           'gcc': ['-std=c99', '-O3','-DuseOMP','-fopenmp'],
           'nvcc': [
+<<<<<<< HEAD
             '--ptxas-options=-v', '-c','-DuseOMP',
             '--compiler-options', "'-fPIC'",'--compiler-options',"'-fopenmp'"
+=======
+            '--ptxas-options=-v', '-c', '-DuseOMP',
+            '--compiler-options', "'-fPIC'",
+            '--compiler-options', "'-fopenmp'"
+>>>>>>> d5c1254a1cbda5dd78cf12d1f869d0bdec999e1f
             ]
           },
           include_dirs = [numpy_include, CUDA['include'], 'src','include']
