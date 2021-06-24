@@ -190,8 +190,4 @@ Wu, G.-x., Pan, L., Wang, J.-n., & Chen, X. (2020). Shear Velocity Inversion Usi
 
 Li, Z., & Chen, X., (2020). An Effective Method to Extract Overtones of Surface Wave from Array Seismic Records of Earthquake Events. Journal of Geophysical Research: Solid Earth, 125(3), e2019JB18511. doi:10.1029/2019jb018511
 
-<<<<<<< HEAD
 Li, Z., Zhou, J., Wu, G., Wang, J., Zhang, G., Dong, S., Pan, L., Yang, Z., Gao, L., Ma, Q., Ren, H., & Chen, X. (2021). CC-FJpy: A Python Package for seismic ambient noise cross-correlation and the frequency-Bessel transform method. Earth and Space Science Open Archive. doi: 10.1002/essoar.10506115.1
-=======
-Li, Z., Zhou, J., Wu, G., Wang, J., Zhang, G., Dong, S., Pan, L., Yang, Z., Gao, L., Ma, Q., Ren, H., Chen, X. (2021). CC-FJpy: A Python Package for Extracting Overtone Surface-Wave Dispersion from Seismic Ambient-Noise Cross Correlation, Seismological Research Letters, XX, 1–8, doi: 10.1785/ 0220210042.
->>>>>>> d5c1254a1cbda5dd78cf12d1f869d0bdec999e1f
