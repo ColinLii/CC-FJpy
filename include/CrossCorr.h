@@ -16,6 +16,7 @@ typedef struct CC_data{
     int nsta;
     int npts;
     int nf;
+    int npairs;
     int fstride;
     int fftlen;
     int steplen;
