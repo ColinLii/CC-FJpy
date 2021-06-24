@@ -87,7 +87,7 @@ int CrossCorrelation(CC_data d)
 #pragma omp for private(absv)
 #endif
         for(long i=0;i<d.nsta;i++){
-            if(((k*d.steplen)>d.startend[i*2])&&((k*d.steplen+d.fftlen)<d.startend[i*2+1]))
+            if(((k*d.steplen)>=d.startend[i*2])&&((k*d.steplen+d.fftlen)<d.startend[i*2+1]))
             {
                 ifCC[i] = 1;
             }
