@@ -138,7 +138,8 @@ def CC(
     
     ncfsr = np.zeros(nf*nPairs,dtype=np.float32)
     ncfsi = np.zeros(nf*nPairs,dtype=np.float32)
-    CC_full(npts,nsta,nf,fstride,fftlen,steplen,ifonebit,ifspecwhittenning,nThreads,Pairs,startend,data,ncfsr,ncfsi)
+        
+    CC_full(npts,nsta,nf,fstride,fftlen,steplen,ifonebit,ifspecwhittenning,nThreads,nPairs,Pairs,startend,data,ncfsr,ncfsi)
     ncfsr = ncfsr.reshape([nPairs,nf])
     ncfsi = ncfsi.reshape([nPairs,nf])
     ncfs = ncfsr + ncfsi*1j
