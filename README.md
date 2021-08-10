@@ -32,7 +32,7 @@ Anaconda environment is required for installation by `make install`.
 
 Before Installation: Download & Compile `fftw` Library.
 
-在安装前请安装`fftw`库(www.fftw.org)，可以在当前目录通过如下命令一键安装。
+在安装前请安装`fftw`库(www.fftw.org) ,可以在当前目录通过如下命令一键安装。
 
 ```
 make fftw
