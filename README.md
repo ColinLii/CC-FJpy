@@ -32,7 +32,7 @@ Anaconda environment is required for installation by `make install`.
 
 Before Installation: Download & Compile `fftw` Library.
 
-在安装前请安装`fftw`库，可以在当前目录通过如下命令一键安装。
+在安装前请安装`fftw`库(www.fftw.org)，可以在当前目录通过如下命令一键安装。
 
 ```
 make fftw
@@ -133,9 +133,9 @@ The F-J Method for CCFs
 
 - `fstride`: stride of frequency for output （默认1即可）
 
-- `itype`: `0` for trapezoidal integral; `1` for linear approximate （积分类型`0`梯形积分，`1`对格林函数进行线性逼近）
+- `itype`: `0` for trapezoidal integral; `1` for linear approximate （积分类型:`0`梯形积分，`1`对格林函数进行线性逼近）
 
-- `func`: `0` for Bessel function; `1` for Hankel function (使用的积分基底`0`贝塞尔函数，`1`汉克尔函数)
+- `func`: `0` for Bessel function; `1` for Hankel function (使用的积分基底:`0`贝塞尔函数，`1`汉克尔函数)
 
 - `out`: the output dispersion spectrum （输出的频散谱）
 
@@ -160,9 +160,9 @@ out = ccfj.fj_earthquake(u,r,c,f,fstride=1,itype=1,func=0,num =20)
 
 - `fstride`: stride of frequency for output (默认1)
 
-- `itype`: `0` for trapezoidal integral; `1` for linear approximate （积分类型`0`梯形积分，`1`对格林函数进行线性逼近）
+- `itype`: `0` for trapezoidal integral; `1` for linear approximate （积分类型:`0`梯形积分，`1`对格林函数进行线性逼近）
 
-- `func`: `0` for Bessel function; `1` for Hankel function (使用的积分基底`0`贝塞尔函数，`1`汉克尔函数)
+- `func`: `0` for Bessel function; `1` for Hankel function (使用的积分基底:`0`贝塞尔函数，`1`汉克尔函数)
 
 - `out`: the output dispersion spectrum （输出的频散谱）
 
@@ -223,3 +223,5 @@ Wu, G.-x., Pan, L., Wang, J.-n., & Chen, X. (2020). Shear Velocity Inversion Usi
 Li, Z., & Chen, X., (2020). An Effective Method to Extract Overtones of Surface Wave from Array Seismic Records of Earthquake Events. Journal of Geophysical Research: Solid Earth, 125(3), e2019JB18511. doi:10.1029/2019jb018511
 
 Li, Z., Zhou, J., Wu, G., Wang, J., Zhang, G., Dong, S., Pan, L., Yang, Z., Gao, L., Ma, Q., Ren, H., & Chen, X. (2021). CC-FJpy: A Python Package for seismic ambient noise cross-correlation and the frequency-Bessel transform method. Seismological Research Letters. doi:10.1785/0220210042
+
+Xi, C., Xia, J., Mi, B., Dai, T., Liu, Y., & Ning, L. (2021). Modified frequency–Bessel transform method for dispersion imaging of Rayleigh waves from ambient seismic noise. Geophysical Journal International, 225(2), 1271-1280. doi:10.1093/gji/ggab008.
